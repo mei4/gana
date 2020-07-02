@@ -8,7 +8,7 @@ const path = require('path')
 const routes = (app) => {
 	app.route('/')
 		.get((req, res) => {
-			res.sendFile(path.join(__dirname + '/index.html'));
+			res.sendFile(path.join(`${__dirname}/views/index.html`));
 		});
 
 	app.route('/products')
