@@ -14,8 +14,12 @@ const productSchema = new Schema({
 	},
 	expirationDate: {
 		type: Date
+	},
+	amount: {
+		type: Number,
+		default: 0,
+		required: true
 	}
-	
 })
 
 module.exports = productSchema
