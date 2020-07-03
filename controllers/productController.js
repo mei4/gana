@@ -7,8 +7,7 @@ const addProduct = (req, res) => {
 	const newProduct = new Product(req.body);
 	
 	newProduct.save((err, Product) => {
-		if (err) { res.send(err) }
-		else { res.json(Product) }
+		res.status(401).send('Fuuuuuuuus')
 	});
 }
 
