@@ -1,4 +1,4 @@
-const productController = require('./controllers/productController')
+const productController = require('./product/productController')
 
 const getProducts = productController.getProducts
 const getProductById = productController.getProductById
