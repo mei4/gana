@@ -2,7 +2,7 @@ const favicon = require('serve-favicon');
 const path = require('path')
 const mongoose = require('mongoose')
 const express = require('express')
-const routes = require('./app/routes')
+const routes = require('./src/routes')
 
 const hostname = "127.0.0.1";
 const port = 4000;
