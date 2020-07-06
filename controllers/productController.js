@@ -3,14 +3,6 @@ const productSchema = require('../models/productModel')
 
 const Product = mongoose.model('Product', productSchema);
 
-const addProduct = (req, res) => {
-	const newProduct = new Product(req.body);
-	
-	newProduct.save((err, Product) => {
-		res.status(401).send('Fuuuuuuuus')
-	});
-}
-
 const getProducts = (req, res) => {
 	Product.find({}, function (err, Product) {
 		if (err) { res.send(err) }
@@ -18,5 +10,19 @@ const getProducts = (req, res) => {
 	})
 }
 
-module.exports.addProduct = addProduct
+const getProductById = (req, res) => {
+	Product.findById(req.params.id, function (err, Product) {
+		if (err) { res.send(err) }
+		else { res.json(Product) }
+	})
+}
+
+const addProduct = (req, res) => {
+	const newProduct = new Product(req.body);
+	
+	res.status(401).send("ERROR")
+}
+
 module.exports.getProducts = getProducts
+module.exports.getProductById = getProductById
+module.exports.addProduct = addProduct
