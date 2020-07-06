@@ -6,7 +6,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "mongoose": "^5.9.21",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {},
   "scripts": {
