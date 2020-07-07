@@ -1,83 +1,78 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "GanApp API",
-    "description": "GanApp API specification",
-    "version": "0.1"
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "defaultTitle",
+    "description" : "defaultDescription",
+    "version" : "0.1"
   },
-  "servers": [
-    {
-      "url": "http://54.217.5.65:3000"
-    }
-  ],
-  "paths": {
-    "/products": {
-      "get": {
-        "description": "Auto generated using Swagger Inspector",
-        "responses": {
-          "200": {
-            "description": "Auto generated using Swagger Inspector",
-            "content": {
-              "application/json; charset=utf-8": {
-                "schema": {
-                  "type": "string"
+  "servers" : [ {
+    "url" : "http://54.217.5.65:3000"
+  }, {
+    "url" : "http://localhost:4000"
+  } ],
+  "paths" : {
+    "/products" : {
+      "get" : {
+        "description" : "Auto generated using Swagger Inspector",
+        "responses" : {
+          "200" : {
+            "description" : "Auto generated using Swagger Inspector",
+            "content" : {
+              "application/json; charset=utf-8" : {
+                "schema" : {
+                  "type" : "string"
                 },
-                "examples": {}
+                "examples" : { }
               }
             }
+          },
+          "default" : {
+            "description" : "Auto generated using Swagger Inspector"
           }
-        },
-        "servers": [
-          {
-            "url": "http://54.217.5.65:3000"
-          }
-        ]
-      },
-      "post": {
-        "description": "Auto generated using Swagger Inspector",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  }
-                }
-              },
-              "examples": {
-                "0": {
-                  "value": "{\n    \"name\": \"some-product-name\"\n}"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "401": {
-            "description": "Auto generated using Swagger Inspector",
-            "content": {
-              "text/html; charset=utf-8": {
-                "schema": {
-                  "type": "string"
-                },
-                "examples": {}
-              }
-            }
-          }
-        },
-        "servers": [
-          {
-            "url": "http://54.217.5.65:3000"
-          }
-        ]
-      },
-      "servers": [
-        {
-          "url": "http://54.217.5.65:3000"
         }
-      ]
+      },
+      "post" : {
+        "description" : "Auto generated using Swagger Inspector",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Product"
+              },
+              "examples" : {
+                "0" : {
+                  "value" : "{\n    \"name\": \"some-product-name\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "401" : {
+            "description" : "Auto generated using Swagger Inspector",
+            "content" : {
+              "text/html; charset=utf-8" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "examples" : { }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Product" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          }
+        }
+      }
     }
   }
 }
