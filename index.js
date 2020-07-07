@@ -14,8 +14,7 @@ app.use(express.json())
 app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 app.use((req, res, next) => {
-   res.header("Access-Control-Allow-Origin", "http://localhost:4000/api-docs/")
-   res.header("Vary", "Referer")
+   res.header("Access-Control-Allow-Origin", "*")
    next()
 });
 
