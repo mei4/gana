@@ -1,13 +1,23 @@
 const mongoose = require('mongoose');
 const productSchema = require('./productModel')
+var os = require("os");
 
 const Product = mongoose.model('Product', productSchema);
 
 const getProducts = (req, res) => {
-	Product.find({}, function (err, Product) {
-		if (err) { res.send(err) }
-		else { res.json(Product) }
-	})
+	Product
+		.find()
+		.select('-__v')
+		.exec()
+		.then(products => {
+			const result = products.map(product => {
+				return {
+					product: product,
+					url: `http://${req.get('host')}${req.path}/${product._id}`
+				}
+			})
+			res.json(result)
+		})
 }
 
 const getProductById = (req, res) => {
@@ -20,7 +30,7 @@ const getProductById = (req, res) => {
 const addProduct = (req, res) => {
 	const newProduct = new Product(req.body);
 	
-	res.status(401).send("ERROR")
+	// res.status(401).send("ERROR")
 }
 
 module.exports.getProducts = getProducts

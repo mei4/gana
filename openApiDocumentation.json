@@ -28,14 +28,13 @@
                       "amount" : 2,
                       "_id" : "some-id",
                       "name" : "patates",
-                      "dateAdded" : "2020-07-03T11:52:41.998Z",
-                      "__v" : 0
+                      "dateAdded" : "2020-07-03T11:52:41.998Z"
                     }, {
                       "amount" : 3,
                       "_id" : "some-other-id",
                       "name" : "dracs",
-                      "dateAdded" : "2020-07-03T11:52:41.998Z",
-                      "__v" : 0
+                      "dateAdded" : "2020-07-03T11:52:41.998Z"
+
                     } ]
                   }
                 }
