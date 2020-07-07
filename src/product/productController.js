@@ -30,7 +30,15 @@ const getProductById = (req, res) => {
 const addProduct = (req, res) => {
 	const newProduct = new Product(req.body);
 	
-	// res.status(401).send("ERROR")
+	newProduct
+		.save()
+		.then(result => {
+			res.status(201).json(result)
+		})
+		.catch(err => res.status(409).json({
+			message: err.message,
+			error: err
+		}))
 }
 
 module.exports.getProducts = getProducts
