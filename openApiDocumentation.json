@@ -1,8 +1,8 @@
 {
   "openapi" : "3.0.1",
   "info" : {
-    "title" : "defaultTitle",
-    "description" : "defaultDescription",
+    "title" : "GanApp API",
+    "description" : "GanApp API specification",
     "version" : "0.1"
   },
   "servers" : [ {
@@ -13,21 +13,34 @@
   "paths" : {
     "/products" : {
       "get" : {
-        "description" : "Auto generated using Swagger Inspector",
+        "description" : "Gets all the products",
         "responses" : {
           "200" : {
-            "description" : "Auto generated using Swagger Inspector",
+            "description" : "Success",
             "content" : {
               "application/json; charset=utf-8" : {
                 "schema" : {
                   "type" : "string"
                 },
-                "examples" : { }
+                "examples" : {
+                  "All products" : {
+                    "value" : [ {
+                      "amount" : 2,
+                      "_id" : "some-id",
+                      "name" : "patates",
+                      "dateAdded" : "2020-07-03T11:52:41.998Z",
+                      "__v" : 0
+                    }, {
+                      "amount" : 3,
+                      "_id" : "some-other-id",
+                      "name" : "dracs",
+                      "dateAdded" : "2020-07-03T11:52:41.998Z",
+                      "__v" : 0
+                    } ]
+                  }
+                }
               }
             }
-          },
-          "default" : {
-            "description" : "Auto generated using Swagger Inspector"
           }
         }
       },
@@ -37,7 +50,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/Product"
+                "$ref" : "#/components/schemas/product"
               },
               "examples" : {
                 "0" : {
@@ -61,11 +74,50 @@
           }
         }
       }
+    },
+    "/products/{id}" : {
+      "get" : {
+        "description" : "Gets the specific product",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of the product to retrieve",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json; charset=utf-8" : {
+                "schema" : {
+                  "type" : "string"
+                },
+                "examples" : {
+                  "A specific product" : {
+                    "value" : {
+                      "amount" : 2,
+                      "_id" : "some-id",
+                      "name" : "patates",
+                      "dateAdded" : "2020-07-03T11:52:41.998Z",
+                      "__v" : 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components" : {
     "schemas" : {
-      "Product" : {
+      "product" : {
         "type" : "object",
         "properties" : {
           "name" : {
