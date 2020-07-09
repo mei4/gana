@@ -1,9 +1,10 @@
 const express = require('express')
 const path = require('path')
-const swaggerUi = require('swagger-ui-express');
-const openApiDocument = require('../openapi')
 const favicon = require('serve-favicon');
 const routes = require('./routes')
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const openApiDocument = YAML.load('./openapi.yaml');
 
 const app = express()
 
