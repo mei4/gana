@@ -16,7 +16,7 @@ const getProducts = (req, res) => {
 					url: `http://${req.get('host')}${req.path}/${product._id}`
 				}
 			})
-			res.json(result)
+			res.status(200).json(result)
 		})
 }
 
