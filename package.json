@@ -21,9 +21,10 @@
     "start": "node server.js",
     "test": "jest"
   },
-  "pre-commit": [
-    "test"
-  ],
+  "pre-commit": {
+    "run": ["test"],
+    "silent": true
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mei4/gana.git"
