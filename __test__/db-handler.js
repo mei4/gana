@@ -1,15 +1,16 @@
 const mongoose = require('mongoose');
+const Product = require('../src/product/productModel')
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const mongod = new MongoMemoryServer();
 
 module.exports.connect = async () => {
-		const uri = await mongod.getConnectionString();
-		
-		await mongoose.connect(uri, {
-			"useNewUrlParser": true,
-			"useUnifiedTopology": true
-	 	});
+    const uri = await mongod.getConnectionString();
+
+    await mongoose.connect(uri, {
+        "useNewUrlParser": true,
+        "useUnifiedTopology": true
+        }); 
 }
 
 module.exports.closeDatabase = async () => {
@@ -24,5 +25,17 @@ module.exports.clearDatabase = async () => {
     for (const key in collections) {
         const collection = collections[key];
         await collection.deleteMany();
+    }
+}
+
+module.exports.addData = async (...products) => {
+    // const apple = new Product( { name: 'test-apple' } );
+    // const cheese = new Product( { name: 'test-cheese' } );
+
+    // await apple.save()
+    // await cheese.save()
+
+    for (const product of products) {
+        await product.save()
     }
 }

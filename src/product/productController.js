@@ -1,8 +1,4 @@
-const mongoose = require('mongoose');
-const productSchema = require('./productModel')
-var os = require("os");
-
-const Product = mongoose.model('Product', productSchema);
+const Product = require('./productModel')
 
 const getProducts = (req, res) => {
 	Product
