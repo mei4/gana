@@ -14,6 +14,10 @@ const getProducts = (req, res) => {
 			})
 			res.status(200).json(result)
 		})
+		.catch(err => res.status(409).json({
+			message: err.message,
+			error: err
+		}))
 }
 
 const addProduct = (req, res) => {
