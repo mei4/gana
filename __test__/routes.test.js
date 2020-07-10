@@ -30,7 +30,7 @@ describe('when the route is /', () => {
 describe('when the route is /products', () => {
 	
 	describe('when GET is called', () => {
-		test("returns all the products without verion", () => {
+		test("returns all the products without version", () => {
 			const appleName = 'test-apple'
 			const cheeseName = 'test-cheese'
 			const apple = new Product( { name: appleName } );
