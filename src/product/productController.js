@@ -49,7 +49,7 @@ const getProductById = (req, res) => {
 		})
 	}
 	else {
-		res.status(400).json({ message : `Id [${requestId}] has an invalid format.`})
+		res.status(400).json({ message : `ID [${requestId}] has an invalid format.`})
 	}
 }
 
