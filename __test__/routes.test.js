@@ -3,6 +3,7 @@ const app = require("../src/app");
 const routes = require("../src/routes");
 const dbHandler = require('./db-handler');
 const Product = require('../src/product/productModel')
+const assert = require('assert')
 
 beforeAll(async () => {
 	await dbHandler.connect()
@@ -21,9 +22,10 @@ describe('when a GET method is called', () => {
 			test("it should return a HTML", () => {
 				return request(app)
 				.get("/")
+				.expect(200)
+				.expect('Content-Type', 'text/html; charset=UTF-8')
 				.then(response => {
-					expect(response.statusCode).toBe(200);
-					expect(JSON.stringify(response.text)).toContain('<h2>GROCERIES API!</h2>')
+					expect(response.text).toContain('<h2>GROCERIES API!</h2>')
 				})
 			})
 		})
@@ -40,11 +42,11 @@ describe('when a GET method is called', () => {
 
 				return request(app)
 				.get("/products")
+				.expect(200)
 				.then(response => {
-
-					expect(response.statusCode).toBe(200);
-					expect(JSON.stringify(response.body)).toContain('test-apple')
-					expect(JSON.stringify(response.body)).toContain('test-cheese')
+					const bodyAsJson = JSON.stringify(response.body)
+					expect(bodyAsJson).toContain('test-apple')
+					expect(bodyAsJson).toContain('test-cheese')
 				})
 			})
 		})
@@ -61,10 +63,11 @@ describe('when a GET method is called', () => {
 
 				return request(app)
 				.get("/products/321321321321321321321321")
+				.expect(200)
 				.then(response => {
-					expect(response.statusCode).toBe(200);
-					expect(JSON.stringify(response.body)).not.toContain('test-apple')
-					expect(JSON.stringify(response.body)).toContain('test-cheese')
+					const bodyAsJson = JSON.stringify(response.body)
+					expect(bodyAsJson).not.toContain('test-apple')
+					expect(bodyAsJson).toContain('test-cheese')
 				})
 			})
 		})
