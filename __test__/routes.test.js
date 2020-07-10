@@ -1,9 +1,8 @@
 const request = require('supertest');
+const dbHandler = require('./db-handler');
 const app = require('../src/app');
 const routes = require('../src/routes');
-const dbHandler = require('./db-handler');
 const Product = require('../src/product/productModel')
-const assert = require('assert')
 
 beforeAll(async () => {
 	await dbHandler.connect()
