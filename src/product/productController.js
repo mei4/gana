@@ -1,4 +1,5 @@
 const Product = require('./productModel')
+const mongoose = require('mongoose')
 
 const getProducts = (req, res) => {
 	Product
@@ -36,13 +37,20 @@ const addProduct = (req, res) => {
 
 const getProductById = (req, res) => {
 	const requestId = req.params.id
-	Product.findById(requestId, (err, product) => {
-		if (err) { res.send(err) }
-		else { 
-			if (!product) { res.status(404).json({ message : `Product with id [${requestId}] does not exist.`}) }
-			else res.json(product) 
-		}
-	})
+	const isValidId = mongoose.Types.ObjectId.isValid(requestId)
+	
+	if (isValidId) {
+		Product.findById(requestId, (err, product) => {
+			if (err) { res.send(err) }
+			else { 
+				if (!product) { res.status(404).json({ message : `Product with id [${requestId}] does not exist.`}) }
+				else res.json(product) 
+			}
+		})
+	}
+	else {
+		res.status(400).json({ message : `Id [${requestId}] has an invalid format.`})
+	}
 }
 
 const deleteProduct = (req, res) => {

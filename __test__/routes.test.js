@@ -113,6 +113,18 @@ describe('when the route is /products/:id', () => {
 				})
 			})
 		})
+
+		describe('when the id is not valid', () => {
+			test('returns an error message', () => {
+				const invalidId = '1'
+				return request(app)
+				.get(`/products/${invalidId}`)
+				.expect(400)
+				.then(response => {
+					expect(response.body).toEqual({'message' : `ID [${invalidId}] has an invalid format.`})
+				})
+			})
+		})
 		
 	})
 
