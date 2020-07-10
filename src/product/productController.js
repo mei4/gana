@@ -35,9 +35,13 @@ const addProduct = (req, res) => {
 }
 
 const getProductById = (req, res) => {
-	Product.findById(req.params.id, (err, product) => {
+	const requestId = req.params.id
+	Product.findById(requestId, (err, product) => {
 		if (err) { res.send(err) }
-		else { res.json(product) }
+		else { 
+			if (!product) { res.status(404).json({ message : `Product with id [${requestId}] does not exist.`}) }
+			else res.json(product) 
+		}
 	})
 }
 

@@ -82,23 +82,38 @@ describe('when the route is /products', () => {
 
 describe('when the route is /products/:id', () => {
 	describe('when GET is called', () => {
-		test('returns the product', () => {
-			const cheeseId = '321321321321321321321321'
-			const cheeseName = 'test-cheese'
-			const appleName = 'test-apple'
-			const apple = new Product( { _id: "123123123123123123123123", name: appleName } );
-			const cheese = new Product( { _id: cheeseId, name: cheeseName } );
-			dbHandler.addData(apple, cheese)	
-
-			return request(app)
-			.get(`/products/${cheeseId}`)
-			.expect(200)
-			.then(response => {
-				const bodyAsJson = JSON.stringify(response.body)
-				expect(bodyAsJson).not.toContain(appleName)
-				expect(bodyAsJson).toContain(cheeseName)
+		describe('when the product exists', () => {
+			test('returns the product', () => {
+				const cheeseId = '321321321321321321321321'
+				const cheeseName = 'test-cheese'
+				const appleName = 'test-apple'
+				const apple = new Product( { _id: "123123123123123123123123", name: appleName } );
+				const cheese = new Product( { _id: cheeseId, name: cheeseName } );
+				dbHandler.addData(apple, cheese)	
+	
+				return request(app)
+				.get(`/products/${cheeseId}`)
+				.expect(200)
+				.then(response => {
+					const bodyAsJson = JSON.stringify(response.body)
+					expect(bodyAsJson).not.toContain(appleName)
+					expect(bodyAsJson).toContain(cheeseName)
+				})
 			})
 		})
+
+		describe('when the product does NOT exists', () => {
+			test('returns an error message', () => {
+				const productId = '321321321321321321321321'
+				return request(app)
+				.get(`/products/${productId}`)
+				.expect(404)
+				.then(response => {
+					expect(response.body).toEqual({'message' : `Product with id [${productId}] does not exist.`})
+				})
+			})
+		})
+		
 	})
 
 	describe('when DELETE is called', () => {
