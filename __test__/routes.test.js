@@ -35,7 +35,7 @@ describe('when a GET method is called', () => {
 	describe('when the route is /products', () => {
 		
 		describe('when status code is 200', () => {	
-			test("it should return all the products", () => {
+			test("it should return all the products without verion", () => {
 				const apple = new Product( { name: 'test-apple' } );
 				const cheese = new Product( { name: 'test-cheese' } );
 				dbHandler.addData(apple, cheese)	
@@ -47,6 +47,7 @@ describe('when a GET method is called', () => {
 					const bodyAsJson = JSON.stringify(response.body)
 					expect(bodyAsJson).toContain('test-apple')
 					expect(bodyAsJson).toContain('test-cheese')
+					expect(bodyAsJson).not.toContain('__v')
 				})
 			})
 		})
@@ -69,6 +70,40 @@ describe('when a GET method is called', () => {
 					expect(bodyAsJson).not.toContain('test-apple')
 					expect(bodyAsJson).toContain('test-cheese')
 				})
+			})
+		})
+
+	})
+})
+
+describe('when a POST method is called', () => {
+	
+	describe('when the route is /products', () => {
+		
+		describe('when adding a product with a name that does NOT exist', () => {	
+			test("it should return the new product", () => {
+				const apple = new Product( { name: 'test-apple' } );
+
+				return request(app)
+				.post("/products")
+				.send(apple)
+				.expect(201)
+				.then(response => {
+					const bodyAsJson = JSON.stringify(response.body)
+					expect(bodyAsJson).toContain('test-apple')
+				})
+			})
+		})
+
+		describe('when adding a product with a name that does exist', () => {	
+			test("it should return the new product", () => {
+				const apple = new Product( { name: 'test-apple' } );
+				dbHandler.addData(apple)
+
+				return request(app)
+				.post("/products")
+				.send(apple)
+				.expect(409)
 			})
 		})
 
