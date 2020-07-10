@@ -22,7 +22,9 @@
     "test": "jest"
   },
   "pre-commit": {
-    "run": ["test"],
+    "run": [
+      "test"
+    ],
     "silent": true
   },
   "repository": {
