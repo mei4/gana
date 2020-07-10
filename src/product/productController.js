@@ -16,13 +16,6 @@ const getProducts = (req, res) => {
 		})
 }
 
-const getProductById = (req, res) => {
-	Product.findById(req.params.id, function (err, Product) {
-		if (err) { res.send(err) }
-		else { res.json(Product) }
-	})
-}
-
 const addProduct = (req, res) => {
 	const newProduct = new Product(req.body);
 	
@@ -37,6 +30,25 @@ const addProduct = (req, res) => {
 		}))
 }
 
+const getProductById = (req, res) => {
+	Product.findById(req.params.id, (err, product) => {
+		if (err) { res.send(err) }
+		else { res.json(product) }
+	})
+}
+
+const deleteProduct = (req, res) => {
+	const requestId = req.params.id
+	Product.findByIdAndDelete(requestId, (err, product) => {
+		if (err) { res.send(err) }
+		else { 
+			if (!product) res.json({ message : `Product with id [${requestId}] does not exist.`})
+			else res.json({ message : `Product [${product.name}] was succesfully deleted.` })
+		}
+	})
+}
+
 module.exports.getProducts = getProducts
-module.exports.getProductById = getProductById
 module.exports.addProduct = addProduct
+module.exports.getProductById = getProductById
+module.exports.deleteProduct = deleteProduct

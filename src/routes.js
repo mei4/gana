@@ -2,8 +2,9 @@ const productController = require('./product/productController')
 const path = require('path')
 
 const getProducts = productController.getProducts
-const getProductById = productController.getProductById
 const addProduct = productController.addProduct
+const getProductById = productController.getProductById
+const deleteProduct = productController.deleteProduct
 
 const routes = (app) => {
 	app.route('/')
@@ -17,6 +18,7 @@ const routes = (app) => {
 
 	app.route('/products/:id')
 		.get(getProductById)
+		.delete(deleteProduct)
 }
 
 module.exports = routes

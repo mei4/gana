@@ -19,7 +19,8 @@ describe('when a GET method is called', () => {
 	describe('when the route is /', () => {
 		
 		describe('when status code is 200', () => {	
-			test("it should return a HTML", () => {
+			test("returns a HTML", () => {
+				
 				return request(app)
 				.get("/")
 				.expect(200)
@@ -35,7 +36,7 @@ describe('when a GET method is called', () => {
 	describe('when the route is /products', () => {
 		
 		describe('when status code is 200', () => {	
-			test("it should return all the products without verion", () => {
+			test("returns all the products without verion", () => {
 				const apple = new Product( { name: 'test-apple' } );
 				const cheese = new Product( { name: 'test-cheese' } );
 				dbHandler.addData(apple, cheese)	
@@ -57,7 +58,7 @@ describe('when a GET method is called', () => {
 	describe('when the route is /products/:id', () => {
 
 		describe('when status code is 200', () => {	
-			test("it should return the product", () => {
+			test("returns the product", () => {
 				const apple = new Product( { _id: "123123123123123123123123", name: 'test-apple' } );
 				const cheese = new Product( { _id: "321321321321321321321321", name: 'test-cheese' } );
 				dbHandler.addData(apple, cheese)	
@@ -108,4 +109,37 @@ describe('when a POST method is called', () => {
 		})
 
 	})
+})
+
+describe('when a DELETE method is called', () => {
+	describe('when the route is /products', () => {
+		
+		describe('when the product is succesfully deleted', () => {	
+			test("returns a success message", () => {
+				const cheese = new Product( { _id: "321321321321321321321321", name: 'test-cheese' } );
+				dbHandler.addData(cheese)	
+
+				return request(app)
+				.delete("/products/321321321321321321321321")
+				.expect(200)
+				.then(response => {
+					expect(response.body).toEqual({'message' : 'Product [test-cheese] was succesfully deleted.'})
+				})
+			})
+		})
+
+		describe('when the product does not exist', () => {	
+			test("returns a success message", () => {
+				return request(app)
+				.delete("/products/321321321321321321321321")
+				.expect(200)
+				.then(response => {
+					expect(response.body).toEqual({'message' : 'Product with id [321321321321321321321321] does not exist.'})
+				})
+			})
+		})
+
+	})
+
+	//when the product can't be deleated
 })
