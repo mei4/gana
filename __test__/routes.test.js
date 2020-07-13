@@ -40,6 +40,7 @@ describe('when the route is /products', () => {
 			.get('/products')
 			.expect(200)
 			.then(response => {
+				expect(response.body).toHaveLength(2)
 				const bodyAsJson = JSON.stringify(response.body)
 				expect(bodyAsJson).toContain(appleName)
 				expect(bodyAsJson).toContain(cheeseName)
@@ -60,8 +61,7 @@ describe('when the route is /products', () => {
 					.send(apple)
 					.expect(201)
 					.then(response => {
-						const bodyAsJson = JSON.stringify(response.body)
-						expect(bodyAsJson).toContain(appleName)
+						expect(response.body.name).toContain(appleName)
 					})
 				})
 			})
@@ -109,7 +109,7 @@ describe('when the route is /products/:id', () => {
 				.get(`/products/${productId}`)
 				.expect(404)
 				.then(response => {
-					expect(response.body).toEqual({'message' : `Product with id [${productId}] does not exist.`})
+					expect(response.body.message).toEqual(`Product with id [${productId}] does not exist.`)
 				})
 			})
 		})
@@ -121,7 +121,7 @@ describe('when the route is /products/:id', () => {
 				.get(`/products/${invalidId}`)
 				.expect(400)
 				.then(response => {
-					expect(response.body).toEqual({'message' : `ID [${invalidId}] has an invalid format.`})
+					expect(response.body.message).toEqual(`ID [${invalidId}] has an invalid format.`)
 				})
 			})
 		})
@@ -141,7 +141,7 @@ describe('when the route is /products/:id', () => {
 				.delete(`/products/${cheeseId}`)
 				.expect(200)
 				.then(response => {
-					expect(response.body).toEqual({'message' : `Product [${cheeseName}] was succesfully deleted.`})
+					expect(response.body.message).toEqual(`Product [${cheeseName}] was succesfully deleted.`)
 				})
 			})
 		})
