@@ -55,14 +55,20 @@ const getProductById = (req, res) => {
 
 const updateProduct = (req, res) => {
 	const requestId = req.params.id
+	const isValidId = mongoose.Types.ObjectId.isValid(requestId)
 
-	Product.findByIdAndUpdate(requestId, req.body, {new: true}, (err, product) => {
-		if (err) { res.send(err) }
-		else {
-			if (!product) res.status(404).json( { message : `Product with id [${requestId}] does not exist.` } )
-			else res.json(product)
-		}
-	})
+	if (isValidId) {
+		Product.findByIdAndUpdate(requestId, req.body, {new: true}, (err, product) => {
+			if (err) { res.send(err) }
+			else {
+				if (!product) res.status(404).json( { message : `Product with id [${requestId}] does not exist.` } )
+				else res.json(product)
+			}
+		})
+	}
+	else {
+		res.status(400).json({ message : `ID [${requestId}] has an invalid format.`})
+	}
 }
 
 const deleteProduct = (req, res) => {

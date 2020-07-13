@@ -183,7 +183,7 @@ describe('when the route is /products/:id', () => {
 		})
 
 		describe('when the prduct does not exists', () => {
-			test('returns the product updated', () => {
+			test('returns an error message', () => {
 				const requestId = '321321321321321321321321'
 				
 				const newName = 'test-smelly-cheese';
@@ -194,6 +194,18 @@ describe('when the route is /products/:id', () => {
 				.expect(404)
 				.then(response => {
 					expect(response.body.message).toEqual(`Product with id [${requestId}] does not exist.`)
+				})
+			})
+		})
+
+		describe('when the id is not valid', () => {
+			test('returns an error message', () => {
+				const invalidId = '1'
+				return request(app)
+				.put(`/products/${invalidId}`)
+				.expect(400)
+				.then(response => {
+					expect(response.body.message).toEqual(`ID [${invalidId}] has an invalid format.`)
 				})
 			})
 		})
