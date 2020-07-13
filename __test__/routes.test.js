@@ -158,4 +158,28 @@ describe('when the route is /products/:id', () => {
 			})
 		})
 	})
+
+	describe('when PUT is called ', () => {
+		describe('when the prduct is successfully updated', () => {
+			test('returns the product updated', () => {
+
+				const cheeseId = '321321321321321321321321'
+				const cheeseName = 'test-cheese'
+				const cheese = new Product( { _id: cheeseId, name: cheeseName, amount: 9 } );
+				dbHandler.addData(cheese)
+				
+				const newName = 'test-smelly-cheese';
+
+				return request(app)
+				.put(`/products/${cheeseId}`)
+				.send({ name: newName})
+				.expect(200)
+				.then(response => {
+					expect(response.body.name).toBe(newName)
+					expect(response.body.name).not.toBe(cheeseName)
+					expect(response.body.amount).toBe(9)
+				})
+			})
+		})
+	})
 })

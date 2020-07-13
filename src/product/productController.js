@@ -53,6 +53,17 @@ const getProductById = (req, res) => {
 	}
 }
 
+const updateProduct = (req, res) => {
+	const requestId = req.params.id
+
+	Product.findByIdAndUpdate(requestId, req.body, {new: true}, (err, product) => {
+		if (err) { res.send(err) }
+		else {
+			res.json(product)
+		}
+	})
+}
+
 const deleteProduct = (req, res) => {
 	const requestId = req.params.id
 	Product.findByIdAndDelete(requestId, (err, product) => {
@@ -67,4 +78,5 @@ const deleteProduct = (req, res) => {
 module.exports.getProducts = getProducts
 module.exports.addProduct = addProduct
 module.exports.getProductById = getProductById
+module.exports.updateProduct = updateProduct
 module.exports.deleteProduct = deleteProduct

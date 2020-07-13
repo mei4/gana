@@ -4,6 +4,7 @@ const path = require('path')
 const getProducts = productController.getProducts
 const addProduct = productController.addProduct
 const getProductById = productController.getProductById
+const updateProduct = productController.updateProduct
 const deleteProduct = productController.deleteProduct
 
 const routes = (app) => {
@@ -18,6 +19,7 @@ const routes = (app) => {
 
 	app.route('/products/:id')
 		.get(getProductById)
+		.put(updateProduct)
 		.delete(deleteProduct)
 }
 
