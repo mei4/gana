@@ -36,9 +36,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/body'
+              $ref: '#/components/schemas/product'
             examples:
-              "0":
+              only specifying name:
                 value: |-
                   {
                       "name": "some-product-name"
@@ -78,9 +78,68 @@ paths:
                     name: patates
                     dateAdded: 2020-07-03T11:52:41.998Z
                     __v: 0
+    put:
+      description: Updates the specific product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product'
+            examples:
+              updates the name:
+                value: |-
+                  {
+                      "name": "new-name"
+                  }
+      parameters:
+      - name: id
+        in: path
+        description: The id of the product to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: string
+              examples:
+                A specific product:
+                  value:
+                    amount: 2
+                    _id: some-id
+                    name: patates
+                    dateAdded: 2020-07-03T11:52:41.998Z
+                    __v: 0
+    delete:
+      description: Deletes the specific product
+      parameters:
+      - name: id
+        in: path
+        description: The id of the product to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: string
+              examples:
+                Delete successful:
+                  value:
+                    message: Product [cheese] was succesfully deleted.
 components:
   schemas:
-    body:
+    product:
       type: object
       properties:
         name:
