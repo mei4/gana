@@ -175,9 +175,25 @@ describe('when the route is /products/:id', () => {
 				.send({ name: newName})
 				.expect(200)
 				.then(response => {
-					expect(response.body.name).toBe(newName)
-					expect(response.body.name).not.toBe(cheeseName)
+					expect(response.body.name).toEqual(newName)
+					expect(response.body.name).not.toEqual(cheeseName)
 					expect(response.body.amount).toBe(9)
+				})
+			})
+		})
+
+		describe('when the prduct does not exists', () => {
+			test('returns the product updated', () => {
+				const requestId = '321321321321321321321321'
+				
+				const newName = 'test-smelly-cheese';
+
+				return request(app)
+				.put(`/products/${requestId}`)
+				.send({ name: newName})
+				.expect(404)
+				.then(response => {
+					expect(response.body.message).toEqual(`Product with id [${requestId}] does not exist.`)
 				})
 			})
 		})
