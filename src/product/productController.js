@@ -73,13 +73,20 @@ const updateProduct = (req, res) => {
 
 const deleteProduct = (req, res) => {
 	const requestId = req.params.id
-	Product.findByIdAndDelete(requestId, (err, product) => {
-		if (err) { res.send(err) }
-		else { 
-			if (!product) res.json({ message : `Product with id [${requestId}] does not exist.`})
-			else res.json({ message : `Product [${product.name}] was succesfully deleted.` })
-		}
-	})
+	const isValidId = mongoose.Types.ObjectId.isValid(requestId)
+
+	if (isValidId) {
+		Product.findByIdAndDelete(requestId, (err, product) => {
+			if (err) { res.send(err) }
+			else { 
+				if (!product) res.status(404).json({ message : `Product with id [${requestId}] does not exist.`})
+				else res.json({ message : `Product [${product.name}] was succesfully deleted.` })
+			}
+		})
+	}
+	else {
+		res.status(400).json({ message : `ID [${requestId}] has an invalid format.`})
+	}
 }
 
 module.exports.getProducts = getProducts

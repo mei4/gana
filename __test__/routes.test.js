@@ -151,9 +151,21 @@ describe('when the route is /products/:id', () => {
 				const productId = '321321321321321321321321'
 				return request(app)
 				.delete(`/products/${productId}`)
-				.expect(200)
+				.expect(404)
 				.then(response => {
 					expect(response.body).toEqual({'message' : `Product with id [${productId}] does not exist.`})
+				})
+			})
+		})
+
+		describe('when the id is not valid', () => {
+			test('returns an error message', () => {
+				const invalidId = '1'
+				return request(app)
+				.delete(`/products/${invalidId}`)
+				.expect(400)
+				.then(response => {
+					expect(response.body.message).toEqual(`ID [${invalidId}] has an invalid format.`)
 				})
 			})
 		})
