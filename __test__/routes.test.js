@@ -128,6 +128,72 @@ describe('when the route is /products/:id', () => {
 		
 	})
 
+	describe('when PUT is called ', () => {
+		describe('when the product is successfully updated', () => {
+			test('returns the product updated', () => {
+				const cheeseId = '321321321321321321321321'
+				const cheeseName = 'test-cheese'
+				const cheese = new Product( { _id: cheeseId, name: cheeseName, amount: 9 } );
+				dbHandler.addData(cheese)
+				
+				const newName = 'test-smelly-cheese';
+
+				return request(app)
+				.put(`/products/${cheeseId}`)
+				.send({ name: newName})
+				.expect(200)
+				.then(response => {
+					expect(response.body.name).toEqual(newName)
+					expect(response.body.name).not.toEqual(cheeseName)
+					expect(response.body.amount).toBe(9)
+				})
+			})
+		})
+
+		describe('when the new product name already exists', () => {
+			test('returns an error message', () => {
+				const appleName = 'test-apple'
+				const cheeseId = '321321321321321321321321'
+				const apple = new Product( { name: appleName } );
+				const cheese = new Product( { _id: cheeseId, name: 'test-cheese' } );
+				dbHandler.addData(apple, cheese)
+				
+				return request(app)
+				.put(`/products/${cheeseId}`)
+				.send({ name: appleName})
+				.expect(409)
+			})
+		})
+
+		describe('when the product does not exists', () => {
+			test('returns an error message', () => {
+				const requestId = '321321321321321321321321'
+				
+				const newName = 'test-smelly-cheese';
+
+				return request(app)
+				.put(`/products/${requestId}`)
+				.send({ name: newName})
+				.expect(404)
+				.then(response => {
+					expect(response.body.message).toEqual(`Product with id [${requestId}] does not exist.`)
+				})
+			})
+		})
+
+		describe('when the id is not valid', () => {
+			test('returns an error message', () => {
+				const invalidId = '1'
+				return request(app)
+				.put(`/products/${invalidId}`)
+				.expect(400)
+				.then(response => {
+					expect(response.body.message).toEqual(`ID [${invalidId}] has an invalid format.`)
+				})
+			})
+		})
+	})
+
 	describe('when DELETE is called', () => {
 		
 		describe('when the product is succesfully deleted', () => {	
@@ -163,58 +229,6 @@ describe('when the route is /products/:id', () => {
 				const invalidId = '1'
 				return request(app)
 				.delete(`/products/${invalidId}`)
-				.expect(400)
-				.then(response => {
-					expect(response.body.message).toEqual(`ID [${invalidId}] has an invalid format.`)
-				})
-			})
-		})
-	})
-
-	describe('when PUT is called ', () => {
-		describe('when the prduct is successfully updated', () => {
-			test('returns the product updated', () => {
-
-				const cheeseId = '321321321321321321321321'
-				const cheeseName = 'test-cheese'
-				const cheese = new Product( { _id: cheeseId, name: cheeseName, amount: 9 } );
-				dbHandler.addData(cheese)
-				
-				const newName = 'test-smelly-cheese';
-
-				return request(app)
-				.put(`/products/${cheeseId}`)
-				.send({ name: newName})
-				.expect(200)
-				.then(response => {
-					expect(response.body.name).toEqual(newName)
-					expect(response.body.name).not.toEqual(cheeseName)
-					expect(response.body.amount).toBe(9)
-				})
-			})
-		})
-
-		describe('when the prduct does not exists', () => {
-			test('returns an error message', () => {
-				const requestId = '321321321321321321321321'
-				
-				const newName = 'test-smelly-cheese';
-
-				return request(app)
-				.put(`/products/${requestId}`)
-				.send({ name: newName})
-				.expect(404)
-				.then(response => {
-					expect(response.body.message).toEqual(`Product with id [${requestId}] does not exist.`)
-				})
-			})
-		})
-
-		describe('when the id is not valid', () => {
-			test('returns an error message', () => {
-				const invalidId = '1'
-				return request(app)
-				.put(`/products/${invalidId}`)
 				.expect(400)
 				.then(response => {
 					expect(response.body.message).toEqual(`ID [${invalidId}] has an invalid format.`)

@@ -58,6 +58,12 @@ paths:
                     name: patates
                     dateAdded: 2020-07-03T11:52:41.998Z
                     __v: 0
+        "409":
+          description: Product name already exists.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: string
   /products/{id}:
     get:
       description: Gets the specific product
@@ -162,6 +168,12 @@ paths:
                 Error message:
                   value:
                     message: 'Product with id [123] does not exist.'
+        "409":
+          description: Product name already exists.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: string
     delete:
       description: Deletes the specific product
       parameters:

@@ -59,7 +59,7 @@ const updateProduct = (req, res) => {
 
 	if (isValidId) {
 		Product.findByIdAndUpdate(requestId, req.body, {new: true}, (err, product) => {
-			if (err) { res.send(err) }
+			if (err) { res.status(409).send(err) }
 			else {
 				if (!product) res.status(404).json( { message : `Product with id [${requestId}] does not exist.` } )
 				else res.json(product)
