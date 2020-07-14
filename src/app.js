@@ -13,6 +13,7 @@ app.use(favicon(path.join('./','public','images','favicon.ico')));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocument));
 app.use((req, res, next) => {
    res.header("Access-Control-Allow-Origin", "*")
+   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
    next()
 });
 
