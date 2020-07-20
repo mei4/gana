@@ -1,4 +1,4 @@
-const Product = require('./productModel')
+const Product = require('./product-model')
 const mongoose = require('mongoose')
 
 const getProducts = (req, res) => {

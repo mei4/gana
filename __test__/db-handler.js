@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Product = require('../src/product/productModel')
+const Product = require('../src/product/product-model')
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const mongod = new MongoMemoryServer();

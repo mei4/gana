@@ -2,7 +2,7 @@ const request = require('supertest');
 const dbHandler = require('./db-handler');
 const app = require('../src/app');
 const routes = require('../src/routes');
-const Product = require('../src/product/productModel')
+const Product = require('../src/product/product-model')
 
 beforeAll(async () => {
 	await dbHandler.connect()

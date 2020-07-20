@@ -1,4 +1,4 @@
-const productController = require('./product/productController')
+const productController = require('./product/product-controller')
 const path = require('path')
 
 const getProducts = productController.getProducts
