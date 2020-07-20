@@ -1,5 +1,6 @@
 const productController = require('./product/product-controller')
 const path = require('path')
+const checkAuth = require('./middleware/check-auth')
 
 const getProducts = productController.getProducts
 const addProduct = productController.addProduct
@@ -15,12 +16,12 @@ const routes = (app) => {
 
 	app.route('/products')
 		.get(getProducts)
-		.post(addProduct)
+		.post(checkAuth, addProduct)
 
 	app.route('/products/:id')
 		.get(getProductById)
-		.put(updateProduct)
-		.delete(deleteProduct)
+		.put(checkAuth, updateProduct)
+		.delete(checkAuth, deleteProduct)
 }
 
 module.exports = routes

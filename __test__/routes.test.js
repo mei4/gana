@@ -3,6 +3,8 @@ const dbHandler = require('./db-handler');
 const app = require('../src/app');
 const routes = require('../src/routes');
 const Product = require('../src/product/product-model')
+const jwt = require('jsonwebtoken');
+const testToken = jwt.sign({email: 'some-email',},'some-public-key',{expiresIn: "10m"	} );
 
 beforeAll(async () => {
 	await dbHandler.connect()
@@ -51,32 +53,33 @@ describe('when the route is /products', () => {
 
 	describe('when POST is called', () => {
 				
-			describe('when adding a product with a name that does NOT exist', () => {	
-				test('returns the new product', () => {
-					const appleName = 'test-apple'
-					const apple = new Product( { name: appleName } );
-	
-					return request(app)
-					.post('/products')
-					.send(apple)
-					.expect(201)
-					.then(response => {
-						expect(response.body.name).toContain(appleName)
-					})
+		describe('when adding a product with a name that does NOT exist', () => {	
+			test('returns the new product', () => {
+				const appleName = 'test-apple'
+				const apple = new Product( { name: appleName } );
+				return request(app)
+				.post('/products')
+				.set('Authorization', 'Bearer ' + testToken)
+				.send(apple)
+				.expect(201)
+				.then(response => {
+					expect(response.body.name).toContain(appleName)
 				})
 			})
+		})
 	
-			describe('when adding a product with a name that does exist', () => {	
-				test('return the new product', () => {
-					const apple = new Product( { name: 'test-apple' } );
-					dbHandler.addData(apple)
-	
-					return request(app)
-					.post('/products')
-					.send(apple)
-					.expect(409)
-				})
+		describe('when adding a product with a name that does exist', () => {	
+			test('return the new product', () => {
+				const apple = new Product( { name: 'test-apple' } );
+				dbHandler.addData(apple)
+
+				return request(app)
+				.post('/products')
+				.set('Authorization', 'Bearer ' + testToken)
+				.send(apple)
+				.expect(409)
 			})
+		})
 	})
 })
 
@@ -140,6 +143,7 @@ describe('when the route is /products/:id', () => {
 
 				return request(app)
 				.put(`/products/${cheeseId}`)
+				.set('Authorization', 'Bearer ' + testToken)
 				.send({ name: newName})
 				.expect(200)
 				.then(response => {
@@ -160,6 +164,7 @@ describe('when the route is /products/:id', () => {
 				
 				return request(app)
 				.put(`/products/${cheeseId}`)
+				.set('Authorization', 'Bearer ' + testToken)
 				.send({ name: appleName})
 				.expect(409)
 			})
@@ -173,6 +178,7 @@ describe('when the route is /products/:id', () => {
 
 				return request(app)
 				.put(`/products/${requestId}`)
+				.set('Authorization', 'Bearer ' + testToken)
 				.send({ name: newName})
 				.expect(404)
 				.then(response => {
@@ -186,6 +192,7 @@ describe('when the route is /products/:id', () => {
 				const invalidId = '1'
 				return request(app)
 				.put(`/products/${invalidId}`)
+				.set('Authorization', 'Bearer ' + testToken)
 				.expect(400)
 				.then(response => {
 					expect(response.body.message).toEqual(`ID [${invalidId}] has an invalid format.`)
@@ -205,6 +212,7 @@ describe('when the route is /products/:id', () => {
 
 				return request(app)
 				.delete(`/products/${cheeseId}`)
+				.set('Authorization', 'Bearer ' + testToken)
 				.expect(200)
 				.then(response => {
 					expect(response.body.message).toEqual(`Product [${cheeseName}] was succesfully deleted.`)
@@ -217,6 +225,7 @@ describe('when the route is /products/:id', () => {
 				const productId = '321321321321321321321321'
 				return request(app)
 				.delete(`/products/${productId}`)
+				.set('Authorization', 'Bearer ' + testToken)
 				.expect(404)
 				.then(response => {
 					expect(response.body).toEqual({'message' : `Product with id [${productId}] does not exist.`})
@@ -229,6 +238,7 @@ describe('when the route is /products/:id', () => {
 				const invalidId = '1'
 				return request(app)
 				.delete(`/products/${invalidId}`)
+				.set('Authorization', 'Bearer ' + testToken)
 				.expect(400)
 				.then(response => {
 					expect(response.body.message).toEqual(`ID [${invalidId}] has an invalid format.`)
