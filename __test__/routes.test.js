@@ -4,7 +4,8 @@ const app = require('../src/app');
 const routes = require('../src/routes');
 const Product = require('../src/product/product-model')
 const jwt = require('jsonwebtoken');
-const testToken = jwt.sign({email: 'some-email',},'some-public-key',{expiresIn: "10m"	} );
+require('dotenv').config()
+const testToken = jwt.sign({email: 'some-email',}, process.env.JWT_KEY, {expiresIn: "10m"	} );
 
 beforeAll(async () => {
 	await dbHandler.connect()
