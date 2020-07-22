@@ -1,33 +1,19 @@
 const request = require('supertest');
-const dbHandler = require('./db-handler');
-const app = require('../src/app');
-const routes = require('../src/routes');
-const Product = require('../src/product/product-model')
+const dbHandler = require('../db-handler');
+const app = require('../../src/app');
+const Product = require('../../src/models/product-model')
 const jwt = require('jsonwebtoken');
+
 require('dotenv').config()
 const testToken = jwt.sign({email: 'some-email',}, process.env.JWT_KEY, {expiresIn: "10m"	} );
 
 beforeAll(async () => {
 	await dbHandler.connect()
-	routes(app)
 })
 
 beforeEach(async () => await dbHandler.clearDatabase());
 
 afterAll(async () => await dbHandler.closeDatabase());
-
-describe('when the route is /', () => {
-		test('returns a HTML', () => {
-			
-			return request(app)
-			.get('/')
-			.expect(200)
-			.expect('Content-Type', 'text/html; charset=UTF-8')
-			.then(response => {
-				expect(response.text).toContain('<h2>GROCERIES API!</h2>')
-			})
-		})
-})
 
 describe('when the route is /products', () => {
 	
