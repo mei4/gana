@@ -13,3 +13,16 @@ describe('when the route is /', () => {
 		})
 	})
 })
+
+describe('when the route is /api-docs', () => {
+	test('returns a HTML from Swagger UI', () => {
+		
+		return request(app)
+		.get('/api-docs/')
+		.expect(200)
+		.expect('Content-Type', 'text/html; charset=utf-8')
+		.then(response => {
+			expect(response.text).toContain('id="swagger-ui')
+		})
+	})
+})
