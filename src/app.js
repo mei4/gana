@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path')
 const favicon = require('serve-favicon');
-const initRoutes = require('./routes/routes');
+const routes = require('./routes/routes');
 
 const app = express()
 
@@ -15,7 +15,7 @@ app.use((req, res, next) => {
    next()
 });
 
-initRoutes(app)
+routes(app)
 
 module.exports = app
 

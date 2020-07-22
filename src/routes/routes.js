@@ -4,7 +4,7 @@ const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const openApiDocument = YAML.load('./openapi.yaml');
 
-const initRoutes = (app) => {
+const routes = (app) => {
 	app.use(/[/]/, (req, res) => {
 		res.status(200).sendFile(path.resolve('src/index.html'));
 	})
@@ -12,4 +12,4 @@ const initRoutes = (app) => {
 	app.use('/products', productRoutes)
 }
 
-module.exports = initRoutes
+module.exports = routes
