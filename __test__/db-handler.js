@@ -7,9 +7,11 @@ module.exports.connect = async () => {
     const uri = await mongod.getConnectionString();
 
     await mongoose.connect(uri, {
-        "useNewUrlParser": true,
-        "useUnifiedTopology": true
-        }); 
+        'useNewUrlParser': true,
+        'useUnifiedTopology': true,
+        'useFindAndModify': false,
+        'useCreateIndex': true
+    }); 
 }
 
 module.exports.closeDatabase = async () => {
@@ -27,9 +29,8 @@ module.exports.clearDatabase = async () => {
     }
 }
 
-module.exports.addData = async (...products) => {
-
-    for (const product of products) {
-        await product.save()
+module.exports.addData = async (...items) => {
+    for (const item of items) {
+        await item.save()
     }
 }

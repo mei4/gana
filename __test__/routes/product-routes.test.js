@@ -1,10 +1,10 @@
-const request = require('supertest');
-const dbHandler = require('../db-handler');
-const app = require('../../src/app');
-const Product = require('../../src/models/product-model')
-const jwt = require('jsonwebtoken');
-
 require('dotenv').config()
+const app = require('../../src/app');
+const dbHandler = require('../db-handler');
+const jwt = require('jsonwebtoken');
+const request = require('supertest');
+const Product = require('../../src/models/product-model')
+
 const testToken = jwt.sign({email: 'some-email',}, process.env.JWT_KEY, {expiresIn: "10m"	} );
 
 beforeAll(async () => {
